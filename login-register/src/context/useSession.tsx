@@ -28,7 +28,7 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
 
   const checkSession = async () => {
     try {
-      const res = await fetch("http://localhost:8001/api/users/profile", {
+      const res = await fetch("http://localhost:8000/api/users/profile", {
         method: "GET",
         credentials: "include",
       });

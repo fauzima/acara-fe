@@ -33,7 +33,7 @@ export default function Login() {
   const handleAdd = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/auth/login", {
+      const res = await fetch("http://localhost:8000/api/auth/promotor/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function Login() {
     <div className="flex flex-col items-center justify-center bg-white">
       <div className="p-8 w-full max-w-md">
         <div className="flex flex-col items-center">
-        <Image
+          <Image
             src="https://tiketevent.com/assets/admin/img/te-dark.png"
             alt="Logo"
             width={240}

@@ -7,7 +7,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const RegisterSchema = Yup.object().shape({
-  username: Yup.string().required("Name is required"),
+  name: Yup.string().required("Name is required"),
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
@@ -20,7 +20,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 interface FormValues {
-  username: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -29,22 +29,23 @@ interface FormValues {
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const initialValue: FormValues = {
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
-  const handleAdd = async (user: FormValues) => {
+  const handleAdd = async (promotor: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/auth", {
+      const res = await fetch("http://localhost:8000/api/auth/promotor", {
         method: "POST",
-        body: JSON.stringify(user),
+        body: JSON.stringify(promotor),
         headers: { "Content-Type": "application/json" },
       });
       const result = await res.json();
       if (!res.ok) throw result;
       toast.success(result.message);
+      console.log(result)
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);
@@ -55,7 +56,14 @@ export default function SignUp() {
 
   return (
     <div className="flex h-[100vh] justify-center">
-      <div className="hidden lg:block w-[50%] h-full" style={{ backgroundImage: 'url(https://ik.imagekit.io/tiketevent/banner-home/daftar-cr.png)', backgroundSize: 'cover' }}>
+      <div
+        className="hidden lg:block w-[50%] h-full"
+        style={{
+          backgroundImage:
+            "url(https://ik.imagekit.io/tiketevent/banner-home/daftar-cr.png)",
+          backgroundSize: "cover",
+        }}
+      >
         {/* <Image
          className="hidden lg:flex "
           src="https://ik.imagekit.io/tiketevent/banner-home/daftar-cr.png"
@@ -89,21 +97,19 @@ export default function SignUp() {
             return (
               <Form>
                 <div className="mt-6">
-                  <label htmlFor="username" className="block text-gray-600">
+                  <label htmlFor="name" className="block text-gray-600">
                     Name
                   </label>
                   <Field
                     type="text"
-                    name="username"
+                    name="name"
                     onChange={handleChange}
-                    value={values.username}
+                    value={values.name}
                     className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                     placeholder="Enter your name"
                   />
-                  {touched.username && errors.username && (
-                    <div className="text-red-500 text-sm">
-                      {errors.username}
-                    </div>
+                  {touched.name && errors.name && (
+                    <div className="text-red-500 text-sm">{errors.name}</div>
                   )}
                 </div>
                 <div className="mt-4">

@@ -33,7 +33,7 @@ export default function Login() {
   const handleAdd = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/auth/login", {
+      const res = await fetch("http://localhost:8000/api/auth/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,15 +57,15 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center bg-white">
-      <div className="p-8 w-full max-w-md">
+      <div className="w-full max-w-md p-8">
         <div className="flex flex-col items-center">
-        <Image
+          <Image
             src="https://tiketevent.com/assets/admin/img/te-dark.png"
             alt="Logo"
             width={240}
             height={150}
           />
-          <h1 className="text-xl font-bold text-gray-700 mt-4">
+          <h1 className="mt-4 text-xl font-bold text-gray-700">
             Masuk untuk membeli tiket
           </h1>
         </div>
@@ -80,11 +80,11 @@ export default function Login() {
           {(props: FormikProps<FormValues>) => {
             const { handleChange, values, touched, errors } = props;
             return (
-              <Form className="w-full max-w-md flex flex-col gap-4">
+              <Form className="flex w-full max-w-md flex-col gap-4">
                 <div>
                   <label
                     htmlFor="data"
-                    className="block text-sm font-medium text-gray-700 pt-5"
+                    className="block pt-5 text-sm font-medium text-gray-700"
                   >
                     Username or Email
                   </label>
@@ -94,11 +94,11 @@ export default function Login() {
                     type="text"
                     onChange={handleChange}
                     value={values.data}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Enter your Username or Email"
                   />
                   {touched.data && errors.data && (
-                    <p className="text-red-500 text-xs mt-1">{errors.data}</p>
+                    <p className="mt-1 text-xs text-red-500">{errors.data}</p>
                   )}
                 </div>
 
@@ -115,11 +115,11 @@ export default function Login() {
                     type="password"
                     onChange={handleChange}
                     value={values.password}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Enter your password"
                   />
                   {touched.password && errors.password && (
-                    <p className="text-red-500 text-xs mt-1">
+                    <p className="mt-1 text-xs text-red-500">
                       {errors.password}
                     </p>
                   )}
@@ -128,7 +128,7 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
+                  className="mt-4 w-full rounded-lg bg-blue-500 px-4 py-2 text-white shadow-lg transition-all duration-300 hover:bg-blue-600"
                 >
                   {isLoading ? "Loading ..." : "Login"}
                 </button>

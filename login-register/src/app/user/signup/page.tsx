@@ -17,6 +17,12 @@ const RegisterSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password does not match!")
     .required("Confirm password is required"),
+  inputRef: Yup.string()
+    .matches(/^[A-Z0-9]+$/, "Must be alphanumeric with capital letters")
+    .min(7, "refCode must be seven characters")
+    .max(7, "refCode must be seven characters")
+    .nullable()
+    .default(null),
 });
 
 interface FormValues {
@@ -24,6 +30,7 @@ interface FormValues {
   email: string;
   password: string;
   confirmPassword: string;
+  inputRef: string | null;
 }
 
 export default function SignUp() {
@@ -33,11 +40,12 @@ export default function SignUp() {
     email: "",
     password: "",
     confirmPassword: "",
+    inputRef: null,
   };
   const handleAdd = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/auth", {
+      const res = await fetch("http://localhost:8000/api/auth/user", {
         method: "POST",
         body: JSON.stringify(user),
         headers: { "Content-Type": "application/json" },
@@ -92,7 +100,9 @@ export default function SignUp() {
                     placeholder="Enter your name"
                   />
                   {touched.username && errors.username && (
-                    <div className="text-red-500 text-sm">{errors.username}</div>
+                    <div className="text-red-500 text-sm">
+                      {errors.username}
+                    </div>
                   )}
                 </div>
                 <div className="mt-4">
@@ -124,7 +134,9 @@ export default function SignUp() {
                     placeholder="Enter your password"
                   />
                   {touched.password && errors.password && (
-                    <div className="text-red-500 text-sm">{errors.password}</div>
+                    <div className="text-red-500 text-sm">
+                      {errors.password}
+                    </div>
                   )}
                 </div>
                 <div className="mt-4">
@@ -145,6 +157,24 @@ export default function SignUp() {
                   {touched.confirmPassword && errors.confirmPassword && (
                     <div className="text-red-500 text-sm">
                       {errors.confirmPassword}
+                    </div>
+                  )}
+                </div>
+                <div className="mt-6">
+                  <label htmlFor="inputRef" className="block text-gray-600">
+                    Referral Code
+                  </label>
+                  <Field
+                    type="text"
+                    name="inputRef"
+                    onChange={handleChange}
+                    value={values.inputRef}
+                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    placeholder="Enter your referral code"
+                  />
+                  {touched.inputRef && errors.inputRef && (
+                    <div className="text-red-500 text-sm">
+                      {errors.inputRef}
                     </div>
                   )}
                 </div>
