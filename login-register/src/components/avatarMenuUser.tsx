@@ -3,7 +3,7 @@ import Image from "next/image";
 import { IUser } from "@/types/user";
 import { useRouter } from "next/navigation";
 
-const AvatarMenu = ({
+const AvatarMenuUser = ({
   user,
   onLogout,
 }: {
@@ -90,4 +90,4 @@ const AvatarMenu = ({
   );
 };
 
-export default AvatarMenu;
+export default AvatarMenuUser;

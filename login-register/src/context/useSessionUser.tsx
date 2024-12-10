@@ -20,7 +20,7 @@ const SessionContext = createContext<SessionContextProps | undefined>(
   undefined
 );
 
-export const SessionProvider: React.FC<{ children: ReactNode }> = ({
+export const SessionProviderUser: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
@@ -52,7 +52,7 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-export const useSession = (): SessionContextProps => {
+export const useSessionUser = (): SessionContextProps => {
   const context = useContext(SessionContext);
   if (!context) {
     throw new Error("useSession must be used within a SessionProvider");

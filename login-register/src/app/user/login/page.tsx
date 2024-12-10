@@ -5,7 +5,7 @@ import { Formik, Form, Field, FormikProps } from "formik";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "@/context/useSession";
+import { useSessionUser } from "@/context/useSessionUser";
 import Image from "next/image";
 
 const LoginSchema = Yup.object().shape({
@@ -23,7 +23,7 @@ interface FormValues {
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { setIsAuth, setUser } = useSession();
+  const { setIsAuth, setUser } = useSessionUser();
 
   const initialValue: FormValues = {
     data: "",
