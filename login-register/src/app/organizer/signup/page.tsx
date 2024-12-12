@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -170,10 +171,13 @@ export default function SignUp() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full mt-12 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
+                  className="w-full mt-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
                 >
                   {isLoading ? "Loading..." : "Register"}
                 </button>
+                <div className="py-8 lg:text-md text-sm text-gray-800 text-center">
+                <p>Telah memiliki Akun? <span className="text-blue-500"><Link href="/organizer/login">Masuk Sekarang</Link></span></p>
+                </div>
               </Form>
             );
           }}
