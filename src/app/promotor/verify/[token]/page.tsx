@@ -18,7 +18,7 @@ export default function VerifyPage({ params }: { params: { token: string } }) {
       if(!res.ok) throw result;
       toast.success(result.message)
       console.log(result)
-      router.push("/organizer/login")
+      router.push("/promotor/login")
     } catch (error:any) {
         console.log(error)
         toast.error(error.message)

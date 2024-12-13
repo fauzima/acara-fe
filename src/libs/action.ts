@@ -1,7 +1,11 @@
-"use server"
+"use server";
 
-import { cookies } from "next/headers"
+import { cookies } from "next/headers";
 
 export const deleteCookie = (key: string) => {
-    cookies().delete(key)
-}
+  cookies().delete(key);
+};
+
+export const getToken = () => {
+  return cookies().get("token");
+};

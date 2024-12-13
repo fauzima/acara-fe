@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useSessionProm } from "@/context/useSessionProm";
+import { useSession } from "@/context/useSession";
 
 const LoginSchema = Yup.object().shape({
   data: Yup.string().required("name or Email is required"),
@@ -23,7 +23,7 @@ interface FormValues {
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { setIsAuth, setProm } = useSessionProm();
+  const { setIsAuth, setAcc } = useSession();
 
   const initialValue: FormValues = {
     data: "",
@@ -43,9 +43,10 @@ export default function Login() {
       });
       const result = await res.json();
       if (!res.ok) throw result;
-      router.push("/");
       setIsAuth(true);
-      setProm(result.promotor);
+      setAcc(result.promotor);
+      router.push("/");
+      router.refresh();
       toast.success(result.message);
     } catch (err: any) {
       console.error(err);

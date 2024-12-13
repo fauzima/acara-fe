@@ -7,34 +7,40 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import { IUser } from "@/types/user";
+import { IAcc } from "@/types/account";
+import { getToken } from "@/libs/action";
 
 interface SessionContextProps {
   isAuth: boolean;
-  user: IUser | null;
+  acc: IAcc | null;
   setIsAuth: (isAuth: boolean) => void;
-  setUser: (user: IUser | null) => void;
+  setAcc: (Acc: IAcc | null) => void;
 }
 
 const SessionContext = createContext<SessionContextProps | undefined>(
-  undefined
+  undefined,
 );
 
-export const SessionProviderUser: React.FC<{ children: ReactNode }> = ({
+export const SessionProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [user, setUser] = useState<IUser | null>(null);
+  const [acc, setAcc] = useState<IAcc | null>(null);
 
   const checkSession = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/users/profile", {
+      const token = await getToken();
+      if (!token) {
+        console.log("Login First");
+        return;
+      }
+      const res = await fetch("http://localhost:8000/api/auth/session", {
         method: "GET",
         credentials: "include",
       });
       const result = await res.json();
       if (!res.ok) throw result;
-      setUser(result.user);
+      setAcc(result.acc);
       setIsAuth(true);
     } catch (err) {
       console.log(err);
@@ -46,13 +52,13 @@ export const SessionProviderUser: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   return (
-    <SessionContext.Provider value={{ isAuth, user, setIsAuth, setUser }}>
+    <SessionContext.Provider value={{ isAuth, acc, setIsAuth, setAcc }}>
       {children}
     </SessionContext.Provider>
   );
 };
 
-export const useSessionUser = (): SessionContextProps => {
+export const useSession = (): SessionContextProps => {
   const context = useContext(SessionContext);
   if (!context) {
     throw new Error("useSession must be used within a SessionProvider");

@@ -5,8 +5,8 @@ import { Formik, Form, Field, FormikProps } from "formik";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSessionUser } from "@/context/useSessionUser";
 import Image from "next/image";
+import { useSession } from "@/context/useSession";
 
 const LoginSchema = Yup.object().shape({
   data: Yup.string().required("Username or Email is required"),
@@ -23,7 +23,7 @@ interface FormValues {
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const { setIsAuth, setUser } = useSessionUser();
+  const { setIsAuth, setAcc } = useSession();
 
   const initialValue: FormValues = {
     data: "",
@@ -43,9 +43,9 @@ export default function Login() {
       });
       const result = await res.json();
       if (!res.ok) throw result;
-      router.push("/");
       setIsAuth(true);
-      setUser(result.user);
+      setAcc(result.user);
+      router.push("/");
       toast.success(result.message);
     } catch (err: any) {
       console.error(err);

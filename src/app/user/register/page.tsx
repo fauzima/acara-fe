@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -18,6 +17,12 @@ const RegisterSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Password does not match!")
     .required("Confirm password is required"),
+  inputRef: Yup.string()
+    .matches(/^[A-Z0-9]+$/, "Must be alphanumeric with capital letters")
+    .min(7, "refCode must be seven characters")
+    .max(7, "refCode must be seven characters")
+    .nullable()
+    .default(null),
 });
 
 interface FormValues {
@@ -25,28 +30,29 @@ interface FormValues {
   email: string;
   password: string;
   confirmPassword: string;
+  inputRef: string | null;
 }
 
-export default function SignUp() {
+export default function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const initialValue: FormValues = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    inputRef: "",
   };
-  const handleAdd = async (promotor: FormValues) => {
+  const handleAdd = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/auth/promotor", {
+      const res = await fetch("http://localhost:8000/api/auth/user", {
         method: "POST",
-        body: JSON.stringify(promotor),
+        body: JSON.stringify(user),
         headers: { "Content-Type": "application/json" },
       });
       const result = await res.json();
       if (!res.ok) throw result;
       toast.success(result.message);
-      console.log(result)
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);
@@ -56,24 +62,8 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex h-[100vh] justify-center">
-      <div
-        className="hidden lg:block w-[50%] h-full"
-        style={{
-          backgroundImage:
-            "url(https://ik.imagekit.io/tiketevent/banner-home/daftar-cr.png)",
-          backgroundSize: "cover",
-        }}
-      >
-        {/* <Image
-         className="hidden lg:flex "
-          src="https://ik.imagekit.io/tiketevent/banner-home/daftar-cr.png"
-          alt="gambar"
-          width={300}
-          height={300}
-        /> */}
-      </div>
-      <div className="py-10 lg:px-36 lg:w-[50%]">
+    <div className="flex flex-col items-center justify-center bg-white">
+      <div className="w-full max-w-md p-10">
         <div className="flex flex-col items-center">
           <Image
             src="https://tiketevent.com/assets/admin/img/te-dark.png"
@@ -81,8 +71,8 @@ export default function SignUp() {
             width={240}
             height={150}
           />
-          <h1 className="text-xl font-bold text-gray-700 mt-4">
-            Daftar untuk Membuat Event
+          <h1 className="mt-4 text-xl font-bold text-gray-700">
+            Buat akun untuk Membeli tiket
           </h1>
         </div>
         <Formik
@@ -106,11 +96,11 @@ export default function SignUp() {
                     name="name"
                     onChange={handleChange}
                     value={values.name}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Enter your name"
                   />
                   {touched.name && errors.name && (
-                    <div className="text-red-500 text-sm">{errors.name}</div>
+                    <div className="text-sm text-red-500">{errors.name}</div>
                   )}
                 </div>
                 <div className="mt-4">
@@ -122,11 +112,11 @@ export default function SignUp() {
                     name="email"
                     onChange={handleChange}
                     value={values.email}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Enter your email"
                   />
                   {touched.email && errors.email && (
-                    <div className="text-red-500 text-sm">{errors.email}</div>
+                    <div className="text-sm text-red-500">{errors.email}</div>
                   )}
                 </div>
                 <div className="mt-4">
@@ -138,11 +128,11 @@ export default function SignUp() {
                     name="password"
                     onChange={handleChange}
                     value={values.password}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Enter your password"
                   />
                   {touched.password && errors.password && (
-                    <div className="text-red-500 text-sm">
+                    <div className="text-sm text-red-500">
                       {errors.password}
                     </div>
                   )}
@@ -159,25 +149,40 @@ export default function SignUp() {
                     name="confirmPassword"
                     onChange={handleChange}
                     value={values.confirmPassword}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
                     placeholder="Confirm your password"
                   />
                   {touched.confirmPassword && errors.confirmPassword && (
-                    <div className="text-red-500 text-sm">
+                    <div className="text-sm text-red-500">
                       {errors.confirmPassword}
+                    </div>
+                  )}
+                </div>
+                <div className="mt-6">
+                  <label htmlFor="inputRef" className="block text-gray-600">
+                    Referral Code
+                  </label>
+                  <Field
+                    type="text"
+                    name="inputRef"
+                    onChange={handleChange}
+                    value={values.inputRef}
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Enter your referral code"
+                  />
+                  {touched.inputRef && errors.inputRef && (
+                    <div className="text-sm text-red-500">
+                      {errors.inputRef}
                     </div>
                   )}
                 </div>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full mt-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
+                  className="mt-12 w-full rounded-lg bg-blue-500 px-4 py-2 text-white shadow-lg transition-all duration-300 hover:bg-blue-600"
                 >
                   {isLoading ? "Loading..." : "Register"}
                 </button>
-                <div className="py-8 lg:text-md text-sm text-gray-800 text-center">
-                <p>Telah memiliki Akun? <span className="text-blue-500"><Link href="/promotor/login">Masuk Sekarang</Link></span></p>
-                </div>
               </Form>
             );
           }}

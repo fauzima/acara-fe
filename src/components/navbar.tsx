@@ -1,26 +1,20 @@
-"use client";
+import { SessionProvider } from "@/context/useSession";
+import AuthMenu from "./authMenu";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import AcaraLogo from "./acaraLogo";
 
 export default function Navbar() {
-  const router = useRouter();
-
   return (
-    <div className="sticky top-0 z-10 flex h-[60px] justify-center bg-blue-800 shadow-md">
-      <div className="flex gap-2">
-        <Link
-          href={"/promotor/signup"}
-          className="inline-flex items-center rounded-lg border bg-white px-3 py-2 text-center text-sm font-medium text-black hover:bg-gray-100"
-        >
-          Buat Event
-        </Link>
-        <Link
-          href={"/user/login"}
-          className="inline-flex items-center rounded-lg bg-orange-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-orange-800"
-        >
-          Login
-        </Link>
-      </div>
-    </div>
+    <header className="fixed top-0 w-full">
+      <nav className="z-[3] mx-auto max-w-screen-xl px-4 py-3 sm:px-8">
+        <div className="flex w-full items-center justify-between">
+          <Link href={"/"}>
+            <AcaraLogo />
+          </Link>
+            <AuthMenu />
+        </div>
+      </nav>
+      <div className="absolute top-0 -z-[2] h-[120%] w-full bg-gradient-to-r from-blue-500/20 via-fuchsia-500/20 to-blue-500/20 backdrop-blur-[30px] gradient-mask-b-[rgb(0,0,0)_50%,rgba(0,0,0,0.6)_70%,rgba(0,0,0,0.3)_85%,rgba(0,0,0,0)_100%]"></div>
+    </header>
   );
 }
