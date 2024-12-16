@@ -3,13 +3,13 @@ import AcaraLogo from "./acaraLogo";
 
 export default function FooterMobile() {
   return (
-    <div className="flex w-full flex-col items-center px-4 pb-9 pt-3 sm:px-8 md:hidden">
+    <div className="flex w-full flex-col items-center px-4 pb-9 pt-3 md:hidden md:px-8">
       <Link href={"/"}>
         <AcaraLogo />
       </Link>
       <div className="flex w-full items-center rounded-lg py-6 text-neutral-600">
         <div className="flex w-full flex-col items-center gap-4">
-          <p className="hover:cursor-pointer hover:underline">Tentang</p>
+          <p className="hover:cursor-pointer hover:underline">Tentang kami</p>
           <p className="hover:cursor-pointer hover:underline">Misi kami</p>
           <p className="hover:cursor-pointer hover:underline">
             Kebijakan privasi
@@ -25,7 +25,7 @@ export default function FooterMobile() {
           <p className="hover:cursor-pointer hover:underline">Kontak</p>
         </div>
       </div>
-      <div className="flex flex-col items-center text-sm text-neutral-600 gap-1">
+      <div className="flex flex-col items-center gap-1 text-sm text-neutral-600">
         <p>© 2024</p>
         <div>
           <span>Made with </span>

@@ -1,26 +1,37 @@
 "use client";
 
-import { Field, Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import Image from "next/image";
+import Input from "@/components/auth/input";
+import InputRef from "@/components/auth/inputRef";
+import InputName from "@/components/auth/inputName";
+import Button from "@/components/button";
 
 const RegisterSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
+  name: Yup.string()
+    .lowercase()
+    .matches(
+      /^[a-z0-9]+$/,
+      "Nama akun hanya boleh terdiri dari karakter huruf kecil dan angka!",
+    )
+    .required("Nama akun diperlukan!")
+    .max(16, "Nama akun maksimal terdiri dari 16 karakter!"),
   email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
+    .email("Format alamat email salah!")
+    .required("Alamat email diperlukan!"),
   password: Yup.string()
-    .min(3, "Password must be 3 characters at minimum")
-    .required("Password is required"),
+    .min(3, "Kata sandi minimal harus terdiri dari 3 karakter!")
+    .required("Kata sandi diperlukan!"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Password does not match!")
-    .required("Confirm password is required"),
+    .oneOf([Yup.ref("password")], "Kata sandi tidak cocok!")
+    .required("Konfirmasikan kata sandi!"),
   inputRef: Yup.string()
-    .matches(/^[A-Z0-9]+$/, "Must be alphanumeric with capital letters")
-    .min(7, "refCode must be seven characters")
-    .max(7, "refCode must be seven characters")
+    .uppercase()
+    .matches(/^[A-Z0-9]+$/, "Kode harus berupa karakter alfanumerik!")
+    .min(7, "Kode rujukan harus terdiri dari 7 karakter!")
+    .max(7, "Kode rujukan harus terdiri dari 7 karakter!")
     .nullable()
     .default(null),
 });
@@ -62,19 +73,15 @@ export default function Register() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white">
-      <div className="w-full max-w-md p-10">
-        <div className="flex flex-col items-center">
-          <Image
-            src="https://tiketevent.com/assets/admin/img/te-dark.png"
-            alt="Logo"
-            width={240}
-            height={150}
-          />
-          <h1 className="mt-4 text-xl font-bold text-gray-700">
-            Buat akun untuk Membeli tiket
-          </h1>
-        </div>
+    <div className="mx-auto flex max-w-screen-2xl flex-col p-20 px-4 md:px-8 lg:h-[calc(100vh-168px)] lg:flex-row">
+      <div className="my-6 place-content-center text-center text-4xl font-semibold leading-tight md:text-5xl lg:my-0 lg:block lg:w-1/2 lg:text-left lg:text-7xl">
+        <span>Jelajahi 1000+ acara dan beli tiketnya. Hanya di </span>
+        <span className="max-w-fit bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text font-medium tracking-wide text-transparent">
+          acara.com
+        </span>
+        <span>.</span>
+      </div>
+      <div className="flex h-fit w-full flex-col items-center rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-6 py-8 sm:bg-none lg:h-auto lg:w-1/2 lg:place-content-center lg:p-0 2xl:items-end">
         <Formik
           initialValues={initialValue}
           validationSchema={RegisterSchema}
@@ -84,104 +91,62 @@ export default function Register() {
           }}
         >
           {(props: FormikProps<FormValues>) => {
-            const { handleChange, values, touched, errors } = props;
             return (
-              <Form>
-                <div className="mt-6">
-                  <label htmlFor="name" className="block text-gray-600">
-                    Name
-                  </label>
-                  <Field
-                    type="text"
-                    name="name"
-                    onChange={handleChange}
-                    value={values.name}
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Enter your name"
-                  />
-                  {touched.name && errors.name && (
-                    <div className="text-sm text-red-500">{errors.name}</div>
-                  )}
-                </div>
-                <div className="mt-4">
-                  <label htmlFor="email" className="block text-gray-600">
-                    Email
-                  </label>
-                  <Field
-                    type="email"
-                    name="email"
-                    onChange={handleChange}
-                    value={values.email}
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Enter your email"
-                  />
-                  {touched.email && errors.email && (
-                    <div className="text-sm text-red-500">{errors.email}</div>
-                  )}
-                </div>
-                <div className="mt-4">
-                  <label htmlFor="password" className="block text-gray-600">
-                    Password
-                  </label>
-                  <Field
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                    value={values.password}
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Enter your password"
-                  />
-                  {touched.password && errors.password && (
-                    <div className="text-sm text-red-500">
-                      {errors.password}
-                    </div>
-                  )}
-                </div>
-                <div className="mt-4">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="block text-gray-600"
-                  >
-                    Confirm Password
-                  </label>
-                  <Field
-                    type="password"
-                    name="confirmPassword"
-                    onChange={handleChange}
-                    value={values.confirmPassword}
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Confirm your password"
-                  />
-                  {touched.confirmPassword && errors.confirmPassword && (
-                    <div className="text-sm text-red-500">
-                      {errors.confirmPassword}
-                    </div>
-                  )}
-                </div>
-                <div className="mt-6">
-                  <label htmlFor="inputRef" className="block text-gray-600">
-                    Referral Code
-                  </label>
-                  <Field
-                    type="text"
+              <Form className="flex w-full max-w-md flex-col">
+                <p className="mb-5 text-center text-xl font-bold">
+                  Daftar sekarang sebagai Pembeli!
+                </p>
+                <InputName
+                  formik={props}
+                  id="name"
+                  name="name"
+                  placeholder="Nama akun"
+                />
+                <Input
+                  formik={props}
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Alamat email"
+                />
+                <Input
+                  formik={props}
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Kata sandi"
+                />
+                <Input
+                  formik={props}
+                  id="password"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Konfirmasi kata sandi"
+                />
+                <div className="mt-1 flex flex-col rounded-xl bg-gradient-to-tr from-cyan-300 to-blue-300 px-5 py-2 sm:from-cyan-200 sm:to-blue-200">
+                  <div className="m-3 px-3 text-center">
+                    <p className="font-semibold">
+                      Dapatkan kupon diskon 10% dengan mengisi kode rujukan!
+                    </p>
+                    <p className="text-xs">(syarat dan ketentuan berlaku)</p>
+                  </div>
+                  <InputRef
+                    formik={props}
+                    id="inputRef"
                     name="inputRef"
-                    onChange={handleChange}
-                    value={values.inputRef}
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Enter your referral code"
+                    placeholder="Kode rujukan"
                   />
-                  {touched.inputRef && errors.inputRef && (
-                    <div className="text-sm text-red-500">
-                      {errors.inputRef}
-                    </div>
-                  )}
                 </div>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="mt-12 w-full rounded-lg bg-blue-500 px-4 py-2 text-white shadow-lg transition-all duration-300 hover:bg-blue-600"
+                  className="mt-5 w-full"
                 >
-                  {isLoading ? "Loading..." : "Register"}
+                  <Button
+                    text={isLoading ? "Memuat..." : "Daftar"}
+                    width="100%"
+                    background="blue-500/50"
+                  />
                 </button>
               </Form>
             );

@@ -1,23 +1,31 @@
 "use client";
 
-import { Field, Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import Input from "@/components/auth/input";
+import InputName from "@/components/auth/inputName";
+import Button from "@/components/button";
 
 const RegisterSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
+  name: Yup.string()
+    .lowercase()
+    .required("Nama akun diperlukan!")
+    .matches(
+      /^[a-z0-9]+$/,
+      "Nama akun hanya boleh terdiri dari karakter huruf kecil dan angka!",
+    )
+    .max(16, "Nama akun maksimal terdiri dari 16 karakter!"),
   email: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
+    .email("Format alamat email salah!")
+    .required("Alamat email diperlukan!"),
   password: Yup.string()
-    .min(3, "Password must be 3 characters at minimum")
-    .required("Password is required"),
+    .min(3, "Kata sandi minimal harus terdiri dari 3 karakter!")
+    .required("Kata sandi diperlukan!"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Password does not match!")
-    .required("Confirm password is required"),
+    .oneOf([Yup.ref("password")], "Kata sandi tidak cocok!")
+    .required("Konfirmasikan kata sandi!"),
 });
 
 interface FormValues {
@@ -46,7 +54,7 @@ export default function Register() {
       const result = await res.json();
       if (!res.ok) throw result;
       toast.success(result.message);
-      console.log(result)
+      console.log(result);
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);
@@ -56,35 +64,15 @@ export default function Register() {
   };
 
   return (
-    <div className="flex h-[100vh] justify-center">
-      <div
-        className="hidden lg:block w-[50%] h-full"
-        style={{
-          backgroundImage:
-            "url(https://ik.imagekit.io/tiketevent/banner-home/daftar-cr.png)",
-          backgroundSize: "cover",
-        }}
-      >
-        {/* <Image
-         className="hidden lg:flex "
-          src="https://ik.imagekit.io/tiketevent/banner-home/daftar-cr.png"
-          alt="gambar"
-          width={300}
-          height={300}
-        /> */}
+    <div className="mx-auto flex max-w-screen-2xl flex-col p-20 px-4 md:px-8 lg:h-[calc(100vh-168px)] lg:flex-row">
+      <div className="my-6 place-content-center text-center text-4xl font-semibold leading-tight md:text-5xl lg:my-0 lg:block lg:w-1/2 lg:text-left lg:text-7xl">
+        <span>Manajemen acara tidak pernah semudah di </span>
+        <span className="max-w-fit bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text font-medium tracking-wide text-transparent">
+          acara.com
+        </span>
+        <span>.</span>
       </div>
-      <div className="py-10 lg:px-36 lg:w-[50%]">
-        <div className="flex flex-col items-center">
-          <Image
-            src="https://tiketevent.com/assets/admin/img/te-dark.png"
-            alt="Logo"
-            width={240}
-            height={150}
-          />
-          <h1 className="text-xl font-bold text-gray-700 mt-4">
-            Daftar untuk Membuat Event
-          </h1>
-        </div>
+      <div className="flex h-fit w-full flex-col items-center rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-6 py-8 sm:bg-none lg:h-auto lg:w-1/2 lg:place-content-center lg:p-0 2xl:items-end">
         <Formik
           initialValues={initialValue}
           validationSchema={RegisterSchema}
@@ -94,90 +82,45 @@ export default function Register() {
           }}
         >
           {(props: FormikProps<FormValues>) => {
-            const { handleChange, values, touched, errors } = props;
             return (
-              <Form>
-                <div className="mt-6">
-                  <label htmlFor="name" className="block text-gray-600">
-                    Name
-                  </label>
-                  <Field
-                    type="text"
-                    name="name"
-                    onChange={handleChange}
-                    value={values.name}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-                    placeholder="Enter your name"
+              <Form className="flex w-full max-w-md flex-col">
+                <p className="mb-5 text-center text-xl font-bold">
+                  Daftar sekarang sebagai Promotor!
+                </p>
+                <InputName
+                  formik={props}
+                  id="name"
+                  name="name"
+                  placeholder="Nama akun"
+                />
+                <Input
+                  formik={props}
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Alamat email"
+                />
+                <Input
+                  formik={props}
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Kata sandi"
+                />
+                <Input
+                  formik={props}
+                  id="password"
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="Konfirmasi kata sandi"
+                />
+                <button type="submit" disabled={isLoading} className="w-full">
+                  <Button
+                    text={isLoading ? "Memuat..." : "Daftar"}
+                    width="100%"
+                    background="blue-500/50"
                   />
-                  {touched.name && errors.name && (
-                    <div className="text-red-500 text-sm">{errors.name}</div>
-                  )}
-                </div>
-                <div className="mt-4">
-                  <label htmlFor="email" className="block text-gray-600">
-                    Email
-                  </label>
-                  <Field
-                    type="email"
-                    name="email"
-                    onChange={handleChange}
-                    value={values.email}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-                    placeholder="Enter your email"
-                  />
-                  {touched.email && errors.email && (
-                    <div className="text-red-500 text-sm">{errors.email}</div>
-                  )}
-                </div>
-                <div className="mt-4">
-                  <label htmlFor="password" className="block text-gray-600">
-                    Password
-                  </label>
-                  <Field
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                    value={values.password}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-                    placeholder="Enter your password"
-                  />
-                  {touched.password && errors.password && (
-                    <div className="text-red-500 text-sm">
-                      {errors.password}
-                    </div>
-                  )}
-                </div>
-                <div className="mt-4">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="block text-gray-600"
-                  >
-                    Confirm Password
-                  </label>
-                  <Field
-                    type="password"
-                    name="confirmPassword"
-                    onChange={handleChange}
-                    value={values.confirmPassword}
-                    className="mt-1 w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
-                    placeholder="Confirm your password"
-                  />
-                  {touched.confirmPassword && errors.confirmPassword && (
-                    <div className="text-red-500 text-sm">
-                      {errors.confirmPassword}
-                    </div>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full mt-10 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg transition-all duration-300"
-                >
-                  {isLoading ? "Loading..." : "Register"}
                 </button>
-                <div className="py-8 lg:text-md text-sm text-gray-800 text-center">
-                <p>Telah memiliki Akun? <span className="text-blue-500"><Link href="/promotor/login">Masuk Sekarang</Link></span></p>
-                </div>
               </Form>
             );
           }}

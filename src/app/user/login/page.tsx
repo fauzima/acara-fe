@@ -1,18 +1,21 @@
 "use client";
 
 import * as Yup from "yup";
-import { Formik, Form, Field, FormikProps } from "formik";
+import { Formik, Form, FormikProps } from "formik";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useSession } from "@/context/useSession";
+import Input from "@/components/auth/input";
+import Button from "@/components/button";
 
 const LoginSchema = Yup.object().shape({
-  data: Yup.string().required("Username or Email is required"),
+  data: Yup.string()
+    .lowercase()
+    .required("Nama akun atau alamat email diperlukan!"),
   password: Yup.string()
-    .min(3, "password must be 3 characters at minimum")
-    .required("password is required"),
+    .min(3, "Kata sandi minimal harus terdiri dari 3 karakter!")
+    .required("Kata sandi diperlukan!"),
 });
 
 interface FormValues {
@@ -56,19 +59,9 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white">
-      <div className="w-full max-w-md p-8">
-        <div className="flex flex-col items-center">
-          <Image
-            src="https://tiketevent.com/assets/admin/img/te-dark.png"
-            alt="Logo"
-            width={240}
-            height={150}
-          />
-          <h1 className="mt-4 text-xl font-bold text-gray-700">
-            Masuk untuk membeli tiket
-          </h1>
-        </div>
+    <div className="mx-auto flex max-w-screen-xl items-center p-20 px-4 md:px-8">
+      <div className="flex w-full flex-col gap-5 rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-3 py-8 sm:bg-none md:p-0">
+        <p className="text-center text-xl font-bold">Masuk ke akun Pembeli</p>
         <Formik
           initialValues={initialValue}
           validationSchema={LoginSchema}
@@ -78,59 +71,28 @@ export default function Login() {
           }}
         >
           {(props: FormikProps<FormValues>) => {
-            const { handleChange, values, touched, errors } = props;
             return (
-              <Form className="flex w-full max-w-md flex-col gap-4">
-                <div>
-                  <label
-                    htmlFor="data"
-                    className="block pt-5 text-sm font-medium text-gray-700"
-                  >
-                    Username or Email
-                  </label>
-                  <Field
-                    id="data"
-                    name="data"
-                    type="text"
-                    onChange={handleChange}
-                    value={values.data}
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Enter your Username or Email"
-                  />
-                  {touched.data && errors.data && (
-                    <p className="mt-1 text-xs text-red-500">{errors.data}</p>
-                  )}
-                </div>
+              <Form className="mx-auto flex w-full max-w-md flex-col items-center">
+                <Input
+                  formik={props}
+                  id="data"
+                  name="data"
+                  placeholder="Nama akun atau alamat email"
+                />
 
-                <div>
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password
-                  </label>
-                  <Field
-                    id="password"
-                    name="password"
-                    type="password"
-                    onChange={handleChange}
-                    value={values.password}
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-2 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Enter your password"
+                <Input
+                  formik={props}
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Kata sandi"
+                />
+                <button type="submit" disabled={isLoading} className="w-full">
+                  <Button
+                    text={isLoading ? "Memuat..." : "Masuk"}
+                    width="100%"
+                    background="blue-500/50"
                   />
-                  {touched.password && errors.password && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors.password}
-                    </p>
-                  )}
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="mt-4 w-full rounded-lg bg-blue-500 px-4 py-2 text-white shadow-lg transition-all duration-300 hover:bg-blue-600"
-                >
-                  {isLoading ? "Loading ..." : "Login"}
                 </button>
               </Form>
             );
