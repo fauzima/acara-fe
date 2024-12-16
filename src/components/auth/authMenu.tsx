@@ -24,9 +24,7 @@ export default function AuthMenu() {
       ) : (
         <div className="relative flex gap-2">
           <HoverModal
-            trigger={
-              <Button text="Daftar" width="5rem" background="white/50" />
-            }
+            trigger={<Button text="Daftar" style="w-20 bg-white/50" />}
             content={
               <div className="absolute right-0 top-full flex items-end pt-3">
                 <div className="flex size-full flex-col gap-4 rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-5 py-3">
@@ -37,15 +35,13 @@ export default function AuthMenu() {
                     <Link href={"/promotor/register"} className="text-nowrap">
                       <Button
                         text="sebagai Promotor"
-                        width="10rem"
-                        background="white/50"
+                        style="w-40 bg-white/50"
                       />
                     </Link>
                     <Link href={"/user/register"} className="text-nowrap">
                       <Button
                         text="sebagai Pembeli"
-                        width="10rem"
-                        background="blue-500/50"
+                        style="w-40 bg-blue-500/50"
                       />
                     </Link>
                   </div>
@@ -54,9 +50,7 @@ export default function AuthMenu() {
             }
           />
           <HoverModal
-            trigger={
-              <Button text="Masuk" width="5rem" background="blue-500/50" />
-            }
+            trigger={<Button text="Masuk" style="w-20 bg-blue-500/50" />}
             content={
               <div className="absolute right-0 top-full flex items-end pt-3">
                 <div className="flex size-full flex-col gap-4 rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-5 py-3">
@@ -67,15 +61,13 @@ export default function AuthMenu() {
                     <Link href={"/promotor/login"} className="text-nowrap">
                       <Button
                         text="sebagai Promotor"
-                        width="10rem"
-                        background="white/50"
+                        style="w-40 bg-white/50"
                       />
                     </Link>
                     <Link href={"/user/login"} className="text-nowrap">
                       <Button
                         text="sebagai Pembeli"
-                        width="10rem"
-                        background="blue-500/50"
+                        style="w-40 bg-blue-500/50"
                       />
                     </Link>
                   </div>

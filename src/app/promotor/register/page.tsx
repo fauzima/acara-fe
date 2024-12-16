@@ -117,8 +117,7 @@ export default function Register() {
                 <button type="submit" disabled={isLoading} className="w-full">
                   <Button
                     text={isLoading ? "Memuat..." : "Daftar"}
-                    width="100%"
-                    background="blue-500/50"
+                    style="w-full bg-blue-500/50"
                   />
                 </button>
               </Form>

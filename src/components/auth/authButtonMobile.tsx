@@ -23,9 +23,10 @@ export default function AuthButtonMobile() {
         />
       </button>
       <div
-        className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 z-[49] bg-neutral-300/50 pt-[25vh] transition-opacity backdrop-blur`}
+        onClick={() => setButton()}
+        className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 z-[49] bg-neutral-300/50 pt-[25vh] backdrop-blur transition-opacity`}
       >
-        <AuthMenuMobile closeButton={setButton} />
+        <AuthMenuMobile  closeButton={setButton} />
       </div>
     </div>
   );

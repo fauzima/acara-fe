@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "@/context/useSession";
-import AuthButtonMobile from "./authButtionMobile";
+import AuthButtonMobile from "./authButtonMobile";
 import AccButtonMobile from "./accButtonMobile";
 
 export default function AuthhMobile() {
