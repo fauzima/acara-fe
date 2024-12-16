@@ -20,6 +20,7 @@ export default function AccButtonMobile({ acc }: { acc: IAcc | null }) {
         />
       </button>
       <div
+        onClick={() => setButton()}
         className={`${isOpen ? "opacity-100" : "pointer-events-none opacity-0"} fixed inset-0 z-[49] bg-gradient-to-tr from-cyan-100 to-blue-100 pt-[25vh] transition-opacity`}
       >
         <AccMenuMobile closeButton={setButton} />

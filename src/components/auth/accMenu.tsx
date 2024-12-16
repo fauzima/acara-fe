@@ -16,7 +16,7 @@ const AccMenu = ({
     <div
       onMouseEnter={() => setChange(true)}
       onMouseLeave={() => setChange(false)}
-      className="relative "
+      className="relative"
     >
       <HoverModal
         trigger={
