@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   ChartConfig,
@@ -9,27 +9,41 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
 const chartData = [
-  { month: "January", eventaktif: 186, mobile: 80 },
-  { month: "February", eventaktif: 305, mobile: 200 },
-  { month: "March", eventaktif: 237, mobile: 120 },
-  { month: "April", eventaktif: 73, mobile: 190 },
-  { month: "May", eventaktif: 209, mobile: 130 },
-  { month: "June", eventaktif: 214, mobile: 140 },
-]
+  {
+    year: "2024",
+    eventAktif: 86,
+    totalTransaksi: 80,
+    totalTiketTerjual: 60,
+    totalPenjualan: 75,
+    totalPengunjung: 45,
+  },
+];
 
 const chartConfig = {
-  eventaktif: {
+  eventAktif: {
     label: "Event Aktif",
     color: "#2563eb",
   },
-  mobile: {
-    label: "Mobile",
+  totalTransaksi: {
+    label: "Total Transaksi",
     color: "#60a5fa",
   },
-} satisfies ChartConfig
+  totalTiketTerjual: {
+    label: "Total Tiket terjual",
+    color: "#60a5fa",
+  },
+  totalPenjualan: {
+    label: "Total Penjualan",
+    color: "#60a5fa",
+  },
+  totalPengunjung: {
+    label: "Total Pengunjung",
+    color: "#60a5fa",
+  },
+} satisfies ChartConfig;
 
 export function Chart() {
   return (
@@ -37,17 +51,19 @@ export function Chart() {
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="year"
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
         />
         <ChartTooltip content={<ChartTooltipContent />} />
         <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="eventaktif" fill="var(--color-eventaktif)" radius={4} />
-        <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+        <Bar dataKey="eventAktif" fill="var(--color-eventAktif)" radius={4} />
+        <Bar dataKey="totalTransaksi" fill="var(--color-totalTransaksi)" radius={4} />
+        <Bar dataKey="totalTiketTerjual" fill="var(--color-totalTiketTerjual)" radius={4} />
+        <Bar dataKey="totalPenjualan" fill="var(--color-totalPenjualan)" radius={4} />
+        <Bar dataKey="totalPengunjung" fill="var(--color-totalPengunjung)" radius={4} />
       </BarChart>
     </ChartContainer>
-  )
+  );
 }

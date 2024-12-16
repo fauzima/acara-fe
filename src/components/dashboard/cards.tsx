@@ -1,6 +1,21 @@
 import { MdEventNote } from "react-icons/md";
 
-export default function Cards() {
+export default async function Cards({ id }: { id: string | undefined }) {
+  // const res = await fetch ("http://localhost:8000/api/dashboard/event", {
+  //   next: {revalidate:5}
+  // })
+
+  // const data = await res.json()
+    const res = await fetch("http://localhost:8000/api/dashboard/event", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(id),
+      credentials: "include",
+    });
+    const result = await res.json();
+
   return (
     <div className="mx-auto w-full max-w-screen-lg px-4 py-4 md:px-8">
       <div className="flex flex-wrap content-start gap-x-6 gap-y-6">
@@ -15,7 +30,7 @@ export default function Cards() {
             </div>
             <hr className="border-neutral-500" />
             <div className="text-start">
-              <span className="text-5xl">0 </span>
+              <span className="text-5xl">{result}</span>
               <span>Event</span>
             </div>
           </div>
