@@ -4,7 +4,7 @@ import Link from "next/link";
 import HoverModal from "../hoverModal";
 import { useState } from "react";
 
-const AccMenu = ({
+const AccMenuDesktop = ({
   acc,
   onLogout,
 }: {
@@ -70,4 +70,4 @@ const AccMenu = ({
   );
 };
 
-export default AccMenu;
+export default AccMenuDesktop;

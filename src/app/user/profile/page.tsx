@@ -1,7 +1,6 @@
-export default function Profile(){
-    return (
-        <div>
-            hi
-        </div>
-    )
+"use client";
+
+export default function Profile() {
+  return <div></div>;
 }
+

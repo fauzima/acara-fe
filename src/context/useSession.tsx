@@ -29,14 +29,16 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
 
   const checkSession = async () => {
     try {
-      const token = await getToken();
+      const token = localStorage.getItem("token");
       if (!token) {
         console.log("Login First");
         return;
       }
       const res = await fetch("http://localhost:8000/api/auth/session", {
         method: "GET",
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const result = await res.json();
       if (!res.ok) throw result;
