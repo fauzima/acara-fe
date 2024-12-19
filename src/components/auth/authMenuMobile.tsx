@@ -19,11 +19,15 @@ export default function AuthMenuMobile({
     <div
       onClick={(e) => e.stopPropagation()}
       className={
-        "mx-4 flex flex-col gap-4 rounded-xl bg-gradient-to-tr from-cyan-100 to-blue-100 px-2 py-8"
+        "mx-4 flex flex-col gap-2 rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-2 py-8"
       }
     >
-      <div className="mb-8 px-3 text-center text-3xl font-semibold">
-        <p className="">Daftar/masuk ke akun anda sekarang!</p>
+      <div className="mb-4 px-3 text-center text-3xl font-semibold">
+        <span>Daftar/masuk ke akun </span>
+        <span className="max-w-fit bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text font-bold tracking-wide text-transparent">
+          acara.com
+        </span>
+        <span> anda sekarang!</span>
       </div>
       <button
         onClick={() => setButton(1)}

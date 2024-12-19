@@ -3,11 +3,11 @@
 import { useSession } from "@/context/useSession";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import AccMenu from "./accMenu";
+import AccMenuDesktop from "./accMenuDesktop";
 import HoverModal from "../hoverModal";
 import Button from "../button";
 
-export default function AuthMenu() {
+export default function AuthDesktop() {
   const router = useRouter();
   const { acc, isAuth, setIsAuth } = useSession();
   console.log(acc);
@@ -22,7 +22,7 @@ export default function AuthMenu() {
   return (
     <div>
       {isAuth ? (
-        <AccMenu acc={acc} onLogout={onLogout} />
+        <AccMenuDesktop acc={acc} onLogout={onLogout} />
       ) : (
         <div className="relative flex gap-2">
           <HoverModal

@@ -1,8 +1,8 @@
-import AuthMenu from "./auth/authMenu";
+import AuthDesktop from "./auth/authDesktop";
 import Link from "next/link";
 import AcaraLogo from "./acaraLogo";
 import SearchMenuMobile from "./search/searchMenuMobile";
-import AuthhMobile from "./auth/authMobile";
+import AuthMobile from "./auth/authMobile";
 
 export default function Navbar() {
   return (
@@ -19,10 +19,10 @@ export default function Navbar() {
             <AcaraLogo />
           </Link>
           <div className="flex w-[33.33%] place-content-end md:hidden">
-            <AuthhMobile />
+            <AuthMobile />
           </div>
           <div className="hidden md:block">
-            <AuthMenu />
+            <AuthDesktop />
           </div>
         </div>
       </nav>

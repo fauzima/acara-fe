@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "@/context/useSession";
 import Input from "@/components/auth/input";
 import Button from "@/components/button";
+import { toastErr } from "@/helpers/toast";
+import afterAuthGuard from "@/hoc/afterAuthGuard";
 
 const LoginSchema = Yup.object().shape({
   data: Yup.string()
@@ -23,7 +25,7 @@ interface FormValues {
   password: string;
 }
 
-export default function Login() {
+function Login() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const { setIsAuth, setAcc } = useSession();
@@ -45,22 +47,22 @@ export default function Login() {
       });
       const result = await res.json();
       if (!res.ok) throw result;
-      localStorage.setItem("token",result.token)
+      localStorage.setItem("token", result.token);
       setIsAuth(true);
       setAcc(result.promotor);
       router.push("/");
       router.refresh();
       toast.success(result.message);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      toast.error(err.message);
+      toastErr(err);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="mx-auto flex max-w-screen-xl place-content-center p-20 px-4 md:px-8">
+    <div className="mx-auto flex max-w-screen-xl place-content-center p-[20vh] px-4 md:px-8">
       <div className="flex w-full flex-col gap-5 rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-3 py-8 sm:bg-none md:p-0">
         <p className="text-center text-xl font-bold">Masuk ke akun Promotor</p>
         <Formik
@@ -103,3 +105,4 @@ export default function Login() {
   );
 }
 
+export default afterAuthGuard(Login);

@@ -7,6 +7,7 @@ import { useState } from "react";
 import Input from "@/components/auth/input";
 import InputName from "@/components/auth/inputName";
 import Button from "@/components/button";
+import afterAuthGuard from "@/hoc/afterAuthGuard";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -35,7 +36,7 @@ interface FormValues {
   confirmPassword: string;
 }
 
-export default function Register() {
+function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const initialValue: FormValues = {
     name: "",
@@ -67,7 +68,7 @@ export default function Register() {
     <div className="mx-auto flex max-w-screen-2xl flex-col p-20 px-4 md:px-8 lg:h-[calc(100vh-168px)] lg:flex-row">
       <div className="my-6 place-content-center text-center text-4xl font-semibold leading-tight md:text-5xl lg:my-0 lg:block lg:w-1/2 lg:text-left lg:text-7xl">
         <span>Manajemen acara tidak pernah semudah di </span>
-        <span className="max-w-fit bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text font-medium tracking-wide text-transparent">
+        <span className="max-w-fit bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text font-bold tracking-wide text-transparent">
           acara.com
         </span>
         <span>.</span>
@@ -128,3 +129,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default afterAuthGuard(Register)
