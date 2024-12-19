@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 export default function AuthMobile() {
   const router = useRouter();
   const { acc, isAuth, setIsAuth } = useSession();
+  
   const onLogout = () => {
     localStorage.removeItem("token");
     setIsAuth(false);

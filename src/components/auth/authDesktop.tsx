@@ -10,7 +10,6 @@ import Button from "../button";
 export default function AuthDesktop() {
   const router = useRouter();
   const { acc, isAuth, setIsAuth } = useSession();
-  console.log(acc);
   
   const onLogout = () => {
     localStorage.removeItem("token")

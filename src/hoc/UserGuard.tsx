@@ -13,7 +13,7 @@ const userGuard = (WrappedComponent: React.ComponentType) => {
       const storedToken = localStorage.getItem("token");
       setToken(storedToken);
       if(!storedToken) router.push("/user/login")
-    }, []);
+    }, [router]);
 
     useEffect(() => {
       if (token === null) return;

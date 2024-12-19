@@ -33,7 +33,7 @@ export const SessionProvider: React.FC<{ children: ReactNode }> = ({
         console.log("Login First");
         return;
       }
-      const res = await fetch("http://localhost:8000/api/auth/session", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/auth/session`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

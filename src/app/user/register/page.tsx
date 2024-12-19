@@ -4,11 +4,12 @@ import { Form, Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import Input from "@/components/auth/input";
-import InputRef from "@/components/auth/inputRef";
-import InputName from "@/components/auth/inputName";
+import Input from "@/components/input";
+import InputRef from "@/components/inputRef";
+import InputName from "@/components/inputName";
 import Button from "@/components/button";
 import afterAuthGuard from "@/hoc/afterAuthGuard";
+import { toastErr } from "@/helpers/toast";
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string()
@@ -57,17 +58,20 @@ function Register() {
   const handleAdd = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/auth/user", {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/auth/user`,
+        {
+          method: "POST",
+          body: JSON.stringify(user),
+          headers: { "Content-Type": "application/json" },
+        },
+      );
       const result = await res.json();
       if (!res.ok) throw result;
       toast.success(result.message);
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      toastErr(error);
     } finally {
       setIsLoading(false);
     }

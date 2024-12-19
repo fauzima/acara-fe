@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/context/useSession";
-import Input from "@/components/auth/input";
+import Input from "@/components/input";
 import Button from "@/components/button";
 import { toastErr } from "@/helpers/toast";
 import afterAuthGuard from "@/hoc/afterAuthGuard";
@@ -38,13 +38,16 @@ function Login() {
   const handleAdd = async (user: FormValues) => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:8000/api/auth/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/auth/user/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
         },
-        body: JSON.stringify(user),
-      });
+      );
       const result = await res.json();
       if (!res.ok) throw result;
       localStorage.setItem("token", result.token);

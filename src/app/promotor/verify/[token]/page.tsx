@@ -1,8 +1,8 @@
 "use client";
 
 import Button from "@/components/button";
+import { toastErr } from "@/helpers/toast";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function VerifyPage({ params }: { params: { token: string } }) {
@@ -10,7 +10,7 @@ export default function VerifyPage({ params }: { params: { token: string } }) {
   const onVerify = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8000/api/auth/promotor/verify/${params.token}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/auth/promotor/verify/${params.token}`,
         {
           method: "PATCH",
         },
@@ -20,9 +20,9 @@ export default function VerifyPage({ params }: { params: { token: string } }) {
       toast.success(result.message);
       console.log(result);
       router.push("/promotor/login");
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      toastErr(error);
       router.push("/");
     }
   };

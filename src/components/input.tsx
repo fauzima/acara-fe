@@ -1,4 +1,4 @@
-import { Field, FormikProps } from "formik";
+import { Field, FormikProps} from "formik";
 import { HTMLInputTypeAttribute } from "react";
 
 interface IProps {

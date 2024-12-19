@@ -13,8 +13,8 @@ const promGuard = (WrappedComponent: React.ComponentType) => {
       const storedToken = localStorage.getItem("token");
       setToken(storedToken);
       if(!storedToken) router.push("/promotor/login")
-        
-    }, []);
+
+    }, [router]);
 
     useEffect(() => {
        if (token === null) return;

@@ -21,7 +21,7 @@ export default function Cards() {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:8000/api/dashboard/summary", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/dashboard/summary`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
