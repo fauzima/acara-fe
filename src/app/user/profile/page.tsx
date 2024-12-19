@@ -1,7 +1,13 @@
-export default function Profile(){
+"use client"
+
+import userGuard from "@/hoc/UserGuard"
+
+function Profile(){
     return (
-        <div>
+        <div className="bg-black">
             hi
         </div>
     )
 }
+
+export default userGuard(Profile)

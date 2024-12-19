@@ -1,69 +1,166 @@
-"use client";
+// "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+// import React, { useState, useEffect } from "react";
+// import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import {
+//   ChartConfig,
+//   ChartContainer,
+//   ChartLegend,
+//   ChartLegendContent,
+//   ChartTooltip,
+//   ChartTooltipContent,
+// } from "@/components/ui/chart";
+// import { IData } from "@/types/data";
 
-const chartData = [
-  {
-    year: "2024",
-    eventAktif: 86,
-    totalTransaksi: 80,
-    totalTiketTerjual: 60,
-    totalPenjualan: 75,
-    totalPengunjung: 45,
-  },
-];
+// const chartConfig = {
+//   eventAktif: {
+//     label: "event aktif",
+//     color: "hsl(var(--chart-1))",
+//   },
+//   totalTransaksi: {
+//     label: "total transaksi",
+//     color: "hsl(var(--chart-2))",
+//   },
+//   totalTiketTerjual: {
+//     label: "total tiket terjual",
+//     color: "hsl(var(--chart-2))",
+//   },
+//   totalPenjualan: {
+//     label: "total penjualan",
+//     color: "hsl(var(--chart-1))",
+//   },
+// } satisfies ChartConfig;
 
-const chartConfig = {
-  eventAktif: {
-    label: "Event Aktif",
-    color: "#2563eb",
-  },
-  totalTransaksi: {
-    label: "Total Transaksi",
-    color: "#60a5fa",
-  },
-  totalTiketTerjual: {
-    label: "Total Tiket terjual",
-    color: "#60a5fa",
-  },
-  totalPenjualan: {
-    label: "Total Penjualan",
-    color: "#60a5fa",
-  },
-  totalPengunjung: {
-    label: "Total Pengunjung",
-    color: "#60a5fa",
-  },
-} satisfies ChartConfig;
+// export function Charts() {
+//   const [chartData, setChartData] = useState<IData | null>(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const token = localStorage.getItem("token");
 
-export function Chart() {
-  return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-      <BarChart accessibilityLayer data={chartData}>
-        <CartesianGrid vertical={false} />
-        <XAxis
-          dataKey="year"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-        />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="eventAktif" fill="var(--color-eventAktif)" radius={4} />
-        <Bar dataKey="totalTransaksi" fill="var(--color-totalTransaksi)" radius={4} />
-        <Bar dataKey="totalTiketTerjual" fill="var(--color-totalTiketTerjual)" radius={4} />
-        <Bar dataKey="totalPenjualan" fill="var(--color-totalPenjualan)" radius={4} />
-        <Bar dataKey="totalPengunjung" fill="var(--color-totalPengunjung)" radius={4} />
-      </BarChart>
-    </ChartContainer>
-  );
-}
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await fetch("http://localhost:8000/api/dashboard/event", {
+//           next: { revalidate: 0 },
+//           headers: {
+//             Authorization: `Bearer ${token}`,
+//           },
+//         });
+
+//         if (!response.ok) {
+//           throw new Error("Network response was not ok");
+//         }
+//         const result:IData[] = await response.json();
+
+//         // Format data sesuai kebutuhan grafik
+//         const formattedData = result.map((item) => ({
+//           eventAktif: item.totalEvents,
+//           totalTransaksi: item.totalOrders,
+//           totalTiketTerjual: item.totalTickets,
+//           totalPenjualan: item.totalProfit,
+//         }));
+
+//         setChartData(formattedData);
+//       } catch (error:any) {
+//         setError(error.message);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   if (loading) {
+//     return <p>Loading...</p>;
+//   }
+
+//   if (error) {
+//     return <p>Error: {error}</p>;
+//   }
+
+//   return (
+//     <Card>
+//       <CardHeader>
+//         <CardTitle>Grafik</CardTitle>
+//         <CardDescription>Total semua dalam setahun</CardDescription>
+//       </CardHeader>
+//       <CardContent>
+//         <ChartContainer config={chartConfig}>
+//           <AreaChart
+//             accessibilityLayer
+//             data={chartData} // Menggunakan data dari state
+//             margin={{
+//               left: 12,
+//               right: 12,
+//             }}
+//           >
+//             <CartesianGrid vertical={false} />
+//             <XAxis
+//               dataKey="month"
+//               tickLine={false}
+//               axisLine={false}
+//               tickMargin={8}
+//               tickFormatter={(value) => value.slice(0, 3)}
+//             />
+//             <ChartTooltip
+//               cursor={false}
+//               content={<ChartTooltipContent indicator="line" />}
+//             />
+//             <Area
+//               dataKey="totalTransaksi"
+//               type="natural"
+//               fill="var(--color-totalTransaksi)"
+//               fillOpacity={0.4}
+//               stroke="var(--color-totalTransaksi)"
+//               stackId="a"
+//             />
+//             <Area
+//               dataKey="eventAktif"
+//               type="natural"
+//               fill="var(--color-eventAktif)"
+//               fillOpacity={0.4}
+//               stroke="var(--color-eventAktif)"
+//               stackId="a"
+//             />
+//             <Area
+//               dataKey="totalTiketTerjual"
+//               type="natural"
+//               fill="var(--color-totalTiketTerjual)"
+//               fillOpacity={0.4}
+//               stroke="var(--color-totalTiketTerjual)"
+//               stackId="a"
+//             />
+//             <Area
+//               dataKey="totalPenjualan"
+//               type="natural"
+//               fill="var(--color-totalPenjualan)"
+//               fillOpacity={0.4}
+//               stroke="var(--color-totalPenjualan)"
+//               stackId="a"
+//             />
+//             <ChartLegend content={<ChartLegendContent />} />
+//           </AreaChart>
+//         </ChartContainer>
+//       </CardContent>
+//       <CardFooter>
+//         <div className="flex w-full items-start gap-2 text-sm">
+//           <div className="grid gap-2">
+//             <div className="flex items-center gap-2 leading-none text-muted-foreground">
+//               2024
+//             </div>
+//           </div>
+//         </div>
+//       </CardFooter>
+//     </Card>
+//   );
+// }

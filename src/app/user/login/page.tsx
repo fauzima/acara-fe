@@ -42,10 +42,10 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
-        credentials: "include",
       });
       const result = await res.json();
       if (!res.ok) throw result;
+      localStorage.setItem("token",result.token)
       setIsAuth(true);
       setAcc(result.user);
       router.push("/");
@@ -101,3 +101,4 @@ export default function Login() {
     </div>
   );
 }
+

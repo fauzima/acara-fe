@@ -1,6 +1,6 @@
 "use client";
+
 import { useSession } from "@/context/useSession";
-import { deleteCookie } from "@/libs/action";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AccMenu from "./accMenu";
@@ -10,8 +10,10 @@ import Button from "../button";
 export default function AuthMenu() {
   const router = useRouter();
   const { acc, isAuth, setIsAuth } = useSession();
+  console.log(acc);
+  
   const onLogout = () => {
-    deleteCookie("token");
+    localStorage.removeItem("token")
     setIsAuth(false);
     router.refresh();
     router.push("/");
