@@ -1,7 +1,8 @@
 "use client";
 
 import Cards from "@/components/dashboard/cards";
-//import { Charts } from "@/components/dashboard/grafik";
+import { GrafikEvent } from "@/components/dashboard/grafikEvent";
+import { GrafikTicket } from "@/components/dashboard/grafikTiket";
 import TogTime from "@/components/dashboard/togTime";
 import promGuard from "@/hoc/PromGuard";
 
@@ -18,7 +19,8 @@ function Dashboard() {
         <TogTime />
       </div>
       <div className="mx-auto w-full max-w-screen-md">
-       {/* // <Charts /> */}
+        <GrafikEvent />
+        <GrafikTicket />
       </div>
     </div>
   );

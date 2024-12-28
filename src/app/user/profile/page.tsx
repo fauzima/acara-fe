@@ -1,11 +1,12 @@
 "use client"
 
+import EditAvatar from "@/components/userProfile/editAvatar"
 import userGuard from "@/hoc/UserGuard"
 
 function Profile(){
     return (
-        <div className="bg-black">
-            hi
+        <div>
+            <EditAvatar />
         </div>
     )
 }

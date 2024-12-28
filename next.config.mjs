@@ -11,6 +11,9 @@ const nextConfig = {
       {
         hostname: "randomuser.me",
       },
+      {
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };
