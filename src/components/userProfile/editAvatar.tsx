@@ -45,7 +45,7 @@ const EditAvatar = () => {
         formData.append("image", values.avatar);
       }
 
-      const res = await fetch("http://localhost:8000/api/users/avatar-cloud", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/users/avatar-cloud`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

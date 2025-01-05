@@ -38,11 +38,11 @@ interface IDataTicket {
 
 export function GrafikTicket() {
   const [chartData, setChartData] = useState<IDataTicket[] | null>(null);
-  console.log(chartData);
+  // console.log(chartData);
 
   const getChartData = async () => {
     const res = await fetch(
-      "http://localhost:8000/api/dashboard/ticket",
+      `${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/dashboard/ticket`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,7 +51,7 @@ export function GrafikTicket() {
       },
     );
     const result = await res.json();
-    console.log(result);
+    // console.log(result);
     setChartData(result.result);
   };
 
@@ -63,7 +63,7 @@ export function GrafikTicket() {
     <Card>
       <CardHeader>
         <CardTitle>Grafik Total Ticket</CardTitle>
-        <CardDescription>January - April 2024</CardDescription>
+        <CardDescription>January - Desember 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -94,7 +94,7 @@ export function GrafikTicket() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing total tickets for the last 4 months
+          Showing total tickets for the last 12 months
         </div>
       </CardFooter>
     </Card>

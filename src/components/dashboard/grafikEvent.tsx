@@ -32,23 +32,23 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 interface IDataEvent {
-  month: string;
+  year: string;
   event_active: number;
 }
 
 export function GrafikEvent() {
   const [chartData, setChartData] = useState<IDataEvent[] | null>(null);
-  console.log(chartData);
+  // console.log(chartData);
 
   const getChartData = async () => {
-    const res = await fetch("http://localhost:8000/api/dashboard/eventaktif", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_FE!}/api/dashboard/eventaktif`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       next: { revalidate: 0 },
     });
     const result = await res.json();
-    console.log(result);
+    // console.log(result);
     setChartData(result.result);
   };
 
@@ -60,7 +60,7 @@ export function GrafikEvent() {
     <Card>
       <CardHeader>
         <CardTitle>Grafik Total Event</CardTitle>
-        <CardDescription>January - April 2024</CardDescription>
+        <CardDescription>2024-2025</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -69,17 +69,17 @@ export function GrafikEvent() {
             data={chartData!}
             layout="vertical"
             margin={{
-              left: -20,
+              left: -15,
             }}
           >
             <XAxis type="number" dataKey="event_active" />
             <YAxis
-              dataKey="month"
+              dataKey="year"
               type="category"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              // tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Bar
@@ -92,7 +92,7 @@ export function GrafikEvent() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing total Events for the last 4 months
+          Showing total Events for the last 2 year
         </div>
       </CardFooter>
     </Card>
