@@ -8,4 +8,5 @@ export interface IAcc {
   createdAt: string
   updatedAt: string
   sumdata: number[]
+  isVerified: boolean
 }
