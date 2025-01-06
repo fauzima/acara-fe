@@ -1,7 +1,7 @@
 "use client";
 
+import { PromotorRegisterSchema } from "@/libs/yupSchemas";
 import { Form, Formik, FormikProps } from "formik";
-import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import Input from "@/components/input";
@@ -9,26 +9,7 @@ import InputName from "@/components/inputName";
 import Button from "@/components/button";
 import afterAuthGuard from "@/hoc/afterAuthGuard";
 import { toastErr } from "@/helpers/toast";
-
-const RegisterSchema = Yup.object().shape({
-  name: Yup.string()
-    .lowercase()
-    .required("Nama akun diperlukan!")
-    .matches(
-      /^[a-z0-9]+$/,
-      "Nama akun hanya boleh terdiri dari karakter huruf kecil dan angka!",
-    )
-    .max(16, "Nama akun maksimal terdiri dari 16 karakter!"),
-  email: Yup.string()
-    .email("Format alamat email salah!")
-    .required("Alamat email diperlukan!"),
-  password: Yup.string()
-    .min(3, "Kata sandi minimal harus terdiri dari 3 karakter!")
-    .required("Kata sandi diperlukan!"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Kata sandi tidak cocok!")
-    .required("Konfirmasikan kata sandi!"),
-});
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   name: string;
@@ -39,6 +20,7 @@ interface FormValues {
 
 function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
   const initialValue: FormValues = {
     name: "",
     email: "",
@@ -58,6 +40,7 @@ function Register() {
       );
       const result = await res.json();
       if (!res.ok) throw result;
+      router.push("/");
       toast.success(result.message);
       console.log(result);
     } catch (error) {
@@ -69,7 +52,7 @@ function Register() {
   };
 
   return (
-    <div className="mx-auto flex max-w-screen-2xl flex-col p-20 px-4 md:px-8 lg:h-[calc(100vh-168px)] lg:flex-row">
+    <div className="mx-auto flex max-w-screen-2xl flex-col p-20 px-4 md:px-8 lg:flex-row">
       <div className="my-6 place-content-center text-center text-4xl font-semibold leading-tight md:text-5xl lg:my-0 lg:block lg:w-1/2 lg:text-left lg:text-7xl">
         <span>Manajemen acara tidak pernah semudah di </span>
         <span className="max-w-fit bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text font-bold tracking-wide text-transparent">
@@ -77,10 +60,10 @@ function Register() {
         </span>
         <span>.</span>
       </div>
-      <div className="flex h-fit w-full flex-col items-center rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-6 py-8 sm:bg-none lg:h-auto lg:w-1/2 lg:place-content-center lg:p-0 2xl:items-end">
+      <div className="mt-4 flex h-fit w-full flex-col items-center lg:mt-[8vh] lg:h-[542px] lg:w-1/2 lg:p-0 lg:pt-[8vh] 2xl:items-end">
         <Formik
           initialValues={initialValue}
-          validationSchema={RegisterSchema}
+          validationSchema={PromotorRegisterSchema}
           onSubmit={(values, action) => {
             handleAdd(values);
             action.resetForm();
@@ -119,7 +102,11 @@ function Register() {
                   type="password"
                   placeholder="Konfirmasi kata sandi"
                 />
-                <button type="submit" disabled={isLoading} className="w-full">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="mt-1 w-full disabled:cursor-not-allowed"
+                >
                   <Button
                     text={isLoading ? "Memuat..." : "Daftar"}
                     style="w-full bg-blue-500/50"

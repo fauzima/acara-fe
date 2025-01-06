@@ -1,7 +1,6 @@
 import AuthDesktop from "./auth/authDesktop";
 import Link from "next/link";
 import AcaraLogo from "./acaraLogo";
-import SearchMenuMobile from "./search/searchMenuMobile";
 import AuthMobile from "./auth/authMobile";
 
 export default function Navbar() {
@@ -9,20 +8,14 @@ export default function Navbar() {
     <header className="fixed top-0 z-50 w-full">
       <nav className="z-[3] mx-auto max-w-screen-xl px-4 py-3 md:px-8">
         <div className="flex w-full items-center justify-between">
-          <div className="w-[33.33%] md:hidden">
-            <SearchMenuMobile />
-          </div>
-          <Link
-            className="flex w-[33.33%] place-content-center md:w-auto"
-            href={"/"}
-          >
+          <Link className="flex place-content-center" href={"/"}>
             <AcaraLogo />
           </Link>
-          <div className="flex w-[33.33%] place-content-end md:hidden">
-            <AuthMobile />
-          </div>
-          <div className="hidden md:block">
+          <div className="hidden place-content-end md:flex">
             <AuthDesktop />
+          </div>
+          <div className="flex place-content-end md:hidden">
+            <AuthMobile />
           </div>
         </div>
       </nav>

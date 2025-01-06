@@ -1,7 +1,7 @@
 "use client";
 
+import { UserRegisterSchema } from "@/libs/yupSchemas";
 import { Form, Formik, FormikProps } from "formik";
-import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import Input from "@/components/input";
@@ -10,33 +10,7 @@ import InputName from "@/components/inputName";
 import Button from "@/components/button";
 import afterAuthGuard from "@/hoc/afterAuthGuard";
 import { toastErr } from "@/helpers/toast";
-
-const RegisterSchema = Yup.object().shape({
-  name: Yup.string()
-    .lowercase()
-    .matches(
-      /^[a-z0-9]+$/,
-      "Nama akun hanya boleh terdiri dari karakter huruf kecil dan angka!",
-    )
-    .required("Nama akun diperlukan!")
-    .max(16, "Nama akun maksimal terdiri dari 16 karakter!"),
-  email: Yup.string()
-    .email("Format alamat email salah!")
-    .required("Alamat email diperlukan!"),
-  password: Yup.string()
-    .min(3, "Kata sandi minimal harus terdiri dari 3 karakter!")
-    .required("Kata sandi diperlukan!"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Kata sandi tidak cocok!")
-    .required("Konfirmasikan kata sandi!"),
-  inputRef: Yup.string()
-    .uppercase()
-    .matches(/^[A-Z0-9]+$/, "Kode harus berupa karakter alfanumerik!")
-    .min(7, "Kode rujukan harus terdiri dari 7 karakter!")
-    .max(7, "Kode rujukan harus terdiri dari 7 karakter!")
-    .nullable()
-    .default(null),
-});
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   name: string;
@@ -48,6 +22,7 @@ interface FormValues {
 
 function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
   const initialValue: FormValues = {
     name: "",
     email: "",
@@ -68,6 +43,7 @@ function Register() {
       );
       const result = await res.json();
       if (!res.ok) throw result;
+      router.push("/");
       toast.success(result.message);
     } catch (error) {
       console.log(error);
@@ -78,7 +54,7 @@ function Register() {
   };
 
   return (
-    <div className="mx-auto flex max-w-screen-2xl flex-col p-20 px-4 md:px-8 lg:h-[calc(100vh-168px)] lg:flex-row">
+    <div className="mx-auto flex max-w-screen-2xl flex-col p-20 px-4 md:px-8 lg:flex-row">
       <div className="my-6 place-content-center text-center text-4xl font-semibold leading-tight md:text-5xl lg:my-0 lg:block lg:w-1/2 lg:text-left lg:text-7xl">
         <span>Jelajahi 1000+ acara dan beli tiketnya. Hanya di </span>
         <span className="max-w-fit bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text font-bold tracking-wide text-transparent">
@@ -86,10 +62,10 @@ function Register() {
         </span>
         <span>.</span>
       </div>
-      <div className="flex h-fit w-full flex-col items-center rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-6 py-8 sm:bg-none lg:h-auto lg:w-1/2 lg:place-content-center lg:p-0 2xl:items-end">
+      <div className="mt-4 flex h-fit w-full flex-col items-center lg:mt-[8vh] lg:w-1/2 lg:p-0 2xl:items-end">
         <Formik
           initialValues={initialValue}
-          validationSchema={RegisterSchema}
+          validationSchema={UserRegisterSchema}
           onSubmit={(values, action) => {
             handleAdd(values);
             action.resetForm();
@@ -128,7 +104,7 @@ function Register() {
                   type="password"
                   placeholder="Konfirmasi kata sandi"
                 />
-                <div className="mt-1 flex flex-col rounded-xl bg-gradient-to-tr from-cyan-300 to-blue-300 px-5 py-2 sm:from-cyan-200 sm:to-blue-200">
+                <div className="mt-1 flex flex-col rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-5 py-2">
                   <div className="m-3 px-3 text-center">
                     <p className="font-semibold">
                       Dapatkan kupon diskon 10% dengan mengisi kode rujukan!
@@ -145,7 +121,7 @@ function Register() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="mt-5 w-full"
+                  className="mt-5 w-full disabled:cursor-not-allowed"
                 >
                   <Button
                     text={isLoading ? "Memuat..." : "Daftar"}

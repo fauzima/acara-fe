@@ -1,6 +1,6 @@
 "use client";
 
-import * as Yup from "yup";
+import { LoginSchema } from "@/libs/yupSchemas";
 import { Formik, Form, FormikProps } from "formik";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -10,15 +10,6 @@ import Input from "@/components/input";
 import Button from "@/components/button";
 import { toastErr } from "@/helpers/toast";
 import afterAuthGuard from "@/hoc/afterAuthGuard";
-
-const LoginSchema = Yup.object().shape({
-  data: Yup.string()
-    .lowercase()
-    .required("Nama akun atau alamat email diperlukan!"),
-  password: Yup.string()
-    .min(3, "Kata sandi minimal harus terdiri dari 3 karakter!")
-    .required("Kata sandi diperlukan!"),
-});
 
 interface FormValues {
   data: string;
@@ -66,7 +57,7 @@ function Login() {
 
   return (
     <div className="mx-auto flex max-w-screen-xl place-content-center p-[20vh] px-4 md:px-8">
-      <div className="flex w-full flex-col gap-5 rounded-xl bg-gradient-to-tr from-cyan-200 to-blue-200 px-3 py-8 sm:bg-none md:p-0">
+      <div className="flex w-full flex-col gap-5">
         <p className="text-center text-xl font-bold">Masuk ke akun Promotor</p>
         <Formik
           initialValues={initialValue}
@@ -93,7 +84,11 @@ function Login() {
                   type="password"
                   placeholder="Kata sandi"
                 />
-                <button type="submit" disabled={isLoading} className="w-full">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="mt-1 w-full disabled:cursor-not-allowed"
+                >
                   <Button
                     text={isLoading ? "Memuat..." : "Masuk"}
                     style="w-full bg-blue-500/50"

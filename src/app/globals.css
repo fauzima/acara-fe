@@ -83,3 +83,30 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 60px;
+  height: 30px;
+  padding: 5px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  filter: hue-rotate(-79deg) saturate(83%) brightness(125%);
+  mix-blend-mode: darken;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  width: 20px;
+  border-radius: 50%;
+  background: #ff00ff;
+  animation: l3 1s infinite alternate;
+}
+.loader:after {
+  --s:-1;
+}
+@keyframes l3{
+  90%,100% {transform: translate(calc(var(--s,1)*15px))}
+}

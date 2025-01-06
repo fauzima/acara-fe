@@ -29,13 +29,14 @@ export default function AccMenuMobile({
       </button>
       <button
         onClick={() => setOpen(true)}
-        className={`${isOpen ? "fixed -translate-x-14 pl-4" : ""} z-50 flex h-9 place-content-end items-center rounded-full bg-white/75 py-2 text-center text-sm font-bold transition-transform`}
+        className={`${isOpen ? "fixed -translate-x-14 pl-2" : ""} z-50 flex h-9 place-content-end items-center rounded-full bg-white/75 py-2 text-center text-sm font-bold transition-transform`}
       >
-        <p
-          className={`${isOpen ? "opacity-100" : "pointer-events-none hidden opacity-0"} mr-2 text-nowrap transition-opacity`}
+        <div
+          className={`${isOpen ? "opacity-100" : "pointer-events-none hidden opacity-0"} mr-2 flex items-center gap-1 text-nowrap transition-opacity`}
         >
-          Halo, {acc?.name}!
-        </p>
+          <p className="text-lg">👋</p>
+          <p>Halo, {acc?.name}!</p>
+        </div>
         <div className="relative size-9">
           <Image
             className="rounded-full object-cover"
@@ -65,13 +66,22 @@ export default function AccMenuMobile({
               <Button text="Profil" style="w-[95%] bg-white/75" />
             </Link>
           ) : (
-            <Link
-              onClick={() => setButton()}
-              href={"/promotor/dashboard"}
-              className="flex w-full place-content-center"
-            >
-              <Button text="Dashboard" style="w-[95%] bg-white/75" />
-            </Link>
+            <div className="flex flex-col gap-4">
+              <Link
+                onClick={() => setButton()}
+                href={"/promotor/create"}
+                className="flex w-full place-content-center"
+              >
+                <Button text="Buat Acara" style="w-[95%] bg-white/75" />
+              </Link>
+              <Link
+                onClick={() => setButton()}
+                href={"/promotor/dashboard"}
+                className="flex w-full place-content-center"
+              >
+                <Button text="Dashboard" style="w-[95%] bg-white/75" />
+              </Link>
+            </div>
           )}
           <button
             onClick={() => onLogout()}
