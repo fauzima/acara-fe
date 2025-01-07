@@ -2,16 +2,15 @@ const base_url = process.env.NEXT_PUBLIC_BASE_URL_FE!;
 
 export const getEvents = async () => {
   const res = await fetch(`${base_url}/api/events`, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 60 },
   });
-  console.log(res)
   const data = await res.json();
   return data.events;
 };
 
 export const getEventId = async (id: string) => {
   const res = await fetch(`${base_url}/api/events/${id}`, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 60 },
   });
   const data = await res.json();
   return data.event;

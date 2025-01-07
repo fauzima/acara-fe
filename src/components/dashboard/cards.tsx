@@ -17,7 +17,7 @@ export default function Cards() {
   }
 
   const [response, setResponse] = useState<number[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setisLoading] = useState<boolean>(true);
 
   const fetchData = async () => {
     try {
@@ -33,7 +33,7 @@ export default function Cards() {
       );
       const data = await res.json();
       setResponse(data);
-      setLoading(false);
+      setisLoading(false);
     } catch (err) {
       toastErr(err);
     }

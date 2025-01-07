@@ -220,7 +220,7 @@ function CreateEvent() {
                     <div className="flex flex-col gap-6 sm:flex-row sm:gap-4">
                       <div className="flex w-full flex-col gap-1">
                         <label className="font-semibold" htmlFor="startDate">
-                          Tanggal mulai Acara
+                          Waktu mulai Acara
                         </label>
                         <Field
                           type="datetime-local"
@@ -237,7 +237,7 @@ function CreateEvent() {
                       </div>
                       <div className="flex w-full flex-col gap-1">
                         <label className="font-semibold" htmlFor="endDate">
-                          Tanggal selesai Acara
+                          Waktu selesai Acara
                         </label>
                         <Field
                           type="datetime-local"
@@ -338,7 +338,7 @@ function CreateEvent() {
                                             className="font-semibold"
                                             htmlFor={`Ticket.${idx}.startDate`}
                                           >
-                                            Tanggal mulai penjualan
+                                            Waktu mulai penjualan
                                           </label>
                                           <Field
                                             type="datetime-local"
@@ -358,7 +358,7 @@ function CreateEvent() {
                                             className="font-semibold"
                                             htmlFor={`Ticket.${idx}.endDate`}
                                           >
-                                            Tanggal selesai penjualan
+                                            Waktu selesai penjualan
                                           </label>
                                           <Field
                                             type="datetime-local"
@@ -461,11 +461,11 @@ function CreateEvent() {
                                   endDate: "",
                                 })
                               }
-                              className={`${values.Ticket.length == 10 ? "hidden" : "block"} flex w-full place-content-center`}
+                              className={`${values.Ticket.length == 10 ? "hidden" : "block"} mx-auto flex w-52 sm:w-1/2 place-content-center`}
                             >
                               <Button
                                 text="Tambah kategori tiket"
-                                style="bg-sky-500/50 sm:w-1/2"
+                                style="bg-sky-500/50 w-full"
                               />
                             </button>
                           </div>

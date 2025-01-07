@@ -1,5 +1,17 @@
 import * as Yup from "yup";
 
+const minDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+const maxDate = new Date(new Date().getFullYear() + 2, 0);
+
+const toIDstring = (date: Date) => {
+  return date.toLocaleDateString("id-ID", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
 export const PromotorRegisterSchema = Yup.object().shape({
   name: Yup.string()
     .lowercase()
@@ -88,8 +100,22 @@ export const CreateEventSchema = Yup.object().shape({
             value.type,
           )),
     ),
-  startDate: Yup.string().required("Tanggal mulai diperlukan!"),
-  endDate: Yup.string().required("Tanggal selesai diperlukan!"),
+  startDate: Yup.date()
+    .default(() => new Date())
+    .min(minDate, "Waktu mulai minimum adalah 24 jam dari sekarang")
+    .max(maxDate, `Waktu mulai maksimum adalah ${toIDstring(maxDate)}`)
+    .required("Waktu mulai diperlukan!"),
+  endDate: Yup.date()
+    .default(() => new Date())
+    .min(minDate, "Waktu selesai minimum adalah 24 jam dari sekarang")
+    .max(maxDate, `Waktu mulai maksimum adalah ${toIDstring(maxDate)}`)
+    .when(
+      "startDate",
+      (startDate, yup) =>
+        startDate &&
+        yup.min(startDate, "Waktu selesai harus setelah Waktu mulai!"),
+    )
+    .required("Waktu selesai diperlukan!"),
   Ticket: Yup.array().of(
     Yup.object().shape({
       ticketCategory: Yup.string()
@@ -106,9 +132,24 @@ export const CreateEventSchema = Yup.object().shape({
         .max(1000, "Jumlah tiket maksimum adalah 1000 tiket!"),
       price: Yup.number()
         .required("Harga jual tiket diperlukan!")
-        .max(100000000, "Harga tiket maksimum adalah Rp. 100,000,000.00!"),
-      startDate: Yup.string().required("Tanggal mulai diperlukan!"),
-      endDate: Yup.string().required("Tanggal selesai diperlukan!"),
+        .min(0, "Harga tiket maksimum adalah Rp. 0,00!")
+        .max(100000000, "Harga tiket maksimum adalah Rp. 100.000.000,00!"),
+      startDate: Yup.date()
+        .default(() => new Date())
+        .min(minDate, "Waktu mulai minimum adalah 24 jam dari sekarang")
+        .max(maxDate, `Waktu mulai maksimum adalah ${toIDstring(maxDate)}`)
+        .required("Waktu mulai diperlukan!"),
+      endDate: Yup.date()
+        .default(() => new Date())
+        .min(minDate, "Waktu selesai minimum adalah 24 jam dari sekarang")
+        .max(maxDate, `Waktu mulai maksimum adalah ${toIDstring(maxDate)}`)
+        .when(
+          "startDate",
+          (startDate, yup) =>
+            startDate &&
+            yup.min(startDate, "Waktu selesai harus setelah Waktu mulai!"),
+        )
+        .required("Waktu selesai diperlukan!"),
     }),
   ),
 });

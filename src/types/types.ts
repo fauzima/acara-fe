@@ -5,6 +5,7 @@ export interface IEventHome {
   thumbnail: string;
   startDate: string;
   price: number;
+  promotorId: string;
   avatar: string;
   name: string;
 }
@@ -17,6 +18,8 @@ export interface IEvent {
   endDate: string;
   thumbnail: string;
   minPrice: number;
+  earliestTicket: string;
+  latestTicket: string;
   location: string;
   venue: string;
   desc: string;
@@ -33,4 +36,9 @@ export interface IEvent {
       desc: string;
     },
   ];
+}
+
+export interface IBonus {
+  UserCoupon: [id: string];
+  UserPoint: [id: string];
 }

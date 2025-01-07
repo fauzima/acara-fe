@@ -19,3 +19,13 @@ export function displayDate(start_date: string, end_date: string) {
     return `${start[0]} ${start[1]} - ${end.join(" ")}`;
   }
 }
+
+export const toIDstring = (date: Date) => {
+  return date.toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};

@@ -1,9 +1,9 @@
 import { displayDate, formatDate } from "@/helpers/formatDate";
-import { IEvent } from "@/types/event";
+import { IEventSalman } from "@/types/event";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function EventCard({ event }: { event: IEvent }) {
+export default function EventCard({ event }: { event: IEventSalman }) {
   const date = displayDate(
     formatDate(event.startDate),
     formatDate(event.endDate),

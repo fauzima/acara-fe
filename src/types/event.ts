@@ -1,4 +1,4 @@
-export interface IEvent {
+export interface IEventSalman {
     id: string
     thumbnail: string
     title: string

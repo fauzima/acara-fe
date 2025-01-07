@@ -1,7 +1,7 @@
 "use client";
 
-import dateformat from "dateformat";
+import { toIDstring } from "@/helpers/formatDate";
 
 export default function LocalStartDate({ time }: { time: string }) {
-  return <div>{dateformat(time, "d mmm yyyy")}</div>;
+  return <div>{toIDstring(new Date(time))}</div>;
 }

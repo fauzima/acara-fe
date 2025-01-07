@@ -1,6 +1,6 @@
 "use client";
 
-import dateformat from "dateformat";
+import { toIDstring } from "@/helpers/formatDate";
 
 export default function LocalEventDate({
   startDate,
@@ -9,15 +9,13 @@ export default function LocalEventDate({
   startDate: string;
   endDate: string;
 }) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
   return (
     <div>
-      <span>{dateformat(startDate, "d mmm yyyy")}</span>
-      <span>{", "}</span>
-      <span>{dateformat(startDate, "HH:MM")}</span>
+      <span>{toIDstring(start)}</span>
       <span>{" — "}</span>
-      <span>{dateformat(endDate, "d mmm yyyy")}</span>
-      <span>{", "}</span>
-      <span>{dateformat(endDate, "HH:MM")}</span>
+      <span>{toIDstring(end)}</span>
     </div>
   );
 }

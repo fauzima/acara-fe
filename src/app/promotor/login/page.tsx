@@ -10,6 +10,8 @@ import Input from "@/components/input";
 import Button from "@/components/button";
 import { toastErr } from "@/helpers/toast";
 import afterAuthGuard from "@/hoc/afterAuthGuard";
+import Promotor from "../../../../public/promotor.png";
+import Image from "next/image";
 
 interface FormValues {
   data: string;
@@ -56,8 +58,13 @@ function Login() {
   };
 
   return (
-    <div className="mx-auto flex max-w-screen-xl place-content-center p-[20vh] px-4 md:px-8">
-      <div className="flex w-full flex-col gap-5">
+    <div className="mx-auto flex max-w-screen-xl items-center py-20 px-4 md:px-8">
+      <div className="flex w-full flex-col gap-2">
+        <Image
+          src={Promotor}
+          alt="promotor"
+          className="mx-auto max-w-64"
+        />
         <p className="text-center text-xl font-bold">Masuk ke akun Promotor</p>
         <Formik
           initialValues={initialValue}

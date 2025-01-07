@@ -17,15 +17,15 @@ export default async function Home() {
       <p className="mb-8 px-4 text-2xl font-semibold md:px-8">
         Acara yang akan datang
       </p>
-      <div className="flex w-full flex-wrap content-start gap-x-4 gap-y-6 font-medium sm:gap-y-4 sm:px-4 md:px-8">
-        {event.slice(0, 6).map((event, idx) => {
+      <div className="mb-10 flex w-full flex-wrap content-start gap-x-4 gap-y-4 font-medium sm:gap-y-8 sm:px-4 md:px-8">
+        {event.map((event, idx) => {
           return (
             <div
               key={idx}
               className="group/card relative flex w-full flex-col bg-gradient-to-tr from-blue-500/25 via-cyan-500/25 to-blue-500/30 transition sm:w-[calc(50%-16px)] sm:rounded-md lg:w-[calc(33.33%-16px)]"
             >
               <Link
-                href={`/`}
+                href={`/search?category=${event.category}&page=1`}
                 className="transition-color absolute right-3 top-3 z-10 rounded bg-white/50 px-2 py-1 text-sm font-semibold backdrop-blur hover:text-blue-700 hover:underline"
               >
                 {event.category}
@@ -59,7 +59,10 @@ export default async function Home() {
                 </div>
               </Link>
               <div className="group/promotor transition-color flex items-center gap-3 bg-blue-500/10 px-6 py-4 transition hover:bg-blue-500/30 sm:rounded-b-md">
-                <div className="size-9 rounded-full bg-blue-500/50 hover:cursor-pointer">
+                <Link
+                  href={`/promotor/${event.name}`}
+                  className="size-9 rounded-full bg-blue-500/50"
+                >
                   <Image
                     className="rounded-full object-cover object-center"
                     src={event.avatar}
@@ -67,10 +70,13 @@ export default async function Home() {
                     height={50}
                     alt={event.name}
                   />
-                </div>
-                <div className="transition-colors hover:cursor-pointer hover:text-blue-700 group-hover/promotor:underline">
+                </Link>
+                <Link
+                  href={`/promotor/${event.name}`}
+                  className="transition-colors hover:text-blue-700 group-hover/promotor:underline"
+                >
                   {event.name}
-                </div>
+                </Link>
               </div>
             </div>
           );

@@ -3,15 +3,15 @@
 import EventCard from "@/components/dashboard/eventCard";
 import promGuard from "@/hoc/PromGuard";
 import { getEventsPromotor } from "@/libs/event";
-import { IEvent } from "@/types/event";
+import { IEventSalman } from "@/types/event";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function OrganizerEvents() {
   type Tab = "active" | "unactive";
   const [activeTab, setActiveTab] = useState<Tab>("active");
-  const [eventsActive, setEventsActive] = useState<IEvent[]>([]);
-  const [eventsUnactive, setEventsUnactive] = useState<IEvent[]>([]);
+  const [eventsActive, setEventsActive] = useState<IEventSalman[]>([]);
+  const [eventsUnactive, setEventsUnactive] = useState<IEventSalman[]>([]);
 
   const handleClick = (tab: Tab) => {
     setActiveTab(tab);
